@@ -1,0 +1,26 @@
+/* body {
+    height: 100%;
+    width: 100%;
+    background-image: url(assets/images/train.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+} */
+
+.jumbotron {
+    background-color: rgb(154, 160, 175);
+    text-align: center;
+    margin: 0 40px 0 40px;
+}
+
+.card {
+    margin: 20px 40px 20px 40px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+.displayAlign {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
