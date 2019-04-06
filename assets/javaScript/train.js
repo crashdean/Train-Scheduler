@@ -1,55 +1,82 @@
 
   // Initialize Firebase
+
+  
+
   var config = {
-    apiKey: "AIzaSyBqCS3v96_EwyzI_gHQEZEQFCObA4Jtl90",
-    authDomain: "train-scheduler-ce7ab.firebaseapp.com",
-    databaseURL: "https://train-scheduler-ce7ab.firebaseio.com",
-    projectId: "train-scheduler-ce7ab",
-    storageBucket: "",
-    messagingSenderId: "17437625324"
-  };
-  firebase.initializeApp(config);
+    apiKey: "AIzaSyC6al9VoMnGoNCw474V3jmrz0ijp81GQMU",
+    authDomain: "train-cf625.firebaseapp.com",
+    databaseURL: "https://train-cf625.firebaseio.com",
+    projectId: "train-cf625",
+    storageBucket: "train-cf625.appspot.com",
+    messagingSenderId: "199908478983"
+};
 
-  var database = firebase.database();
- 
-    $(".submit").on('click', function (event) {
-      event.preventDefault()
-      var trainNam = $("#inputTrain").val()
-      var destinationNam = $("#inputDestination").val();
-      var firstTrainNam = $('#inputTrainTime').val()
-      var frequencyTime = $('#inputFrequency').val()
+firebase.initializeApp(config);
 
-      console.log(trainNam)
-      console.log(destinationNam)
-      console.log(firstTrainNam)
-      console.log(frequencyTime)
+var database = firebase.database();
 
-      database.ref().push({
-        name: empName,
-        role: empRole,
-        startDate: empStartDate,
-        monthlyRate: empMonthRate,
+
+$(".submit").on('click', function (event) {
+    event.preventDefault()
+    var trainNam = $("#inputTrain").val();
+    var destinationNam = $("#inputDestination").val();
+    var firstTrain = $('#inputTrainTime').val();
+    var frequencyTime = $('#inputFrequency').val();
+
+    console.log(trainNam)
+    console.log(destinationNam)
+    console.log(firstTrain)
+    console.log(frequencyTime)
+
+    database.ref().push({
+        train: trainNam,
+        destination: destinationNam,
+        firstTrain: firstTrain,
+        frequency: frequencyTime,
         dateAdded: firebase.database.ServerValue.TIMESTAMP
-      });
-    })
+    });
+})
 
-    database.ref().on("child_added", function(snapshot) {
-      console.log(snapshot.val().name);
-      console.log(snapshot.val().role);
-      console.log(snapshot.val().startDate);
-      console.log(snapshot.val().monthlyRate);
+database.ref().on("child_added", function (snapshot) {
+    console.log(snapshot.val().train);
+    console.log(snapshot.val().destination);
+    console.log(snapshot.val().firstTrain);
+    console.log(snapshot.val().frequency);
 
-    var tempDate = snapshot.val().startDate;
-    var tempFormat = "MM/DD/YYYY";
-    var convertedDate = moment(tempDate, tempFormat);
+    var tempTime = snapshot.val().firstTrain;
+    var tFrequency = snapshot.val().frequency;
 
-    console.log(moment().diff(convertedDate, "months"));
-    var monthsWorked = moment().diff(convertedDate, "months");
-    var totalBilled = monthsWorked * snapshot.val().monthlyRate;
+    console.log(tempTime);
+
+    var firstTimeConverted = moment(tempTime, "HH:mm").subtract(1, "years");
+    console.log(firstTimeConverted);
+
+
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
+
+    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    console.log("DIFFERENCE IN TIME: " + diffTime);
+
+    var tRemainder = diffTime % tFrequency;
+    console.log(tRemainder);
+
+    var minutesAway = tFrequency - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + minutesAway);
+
+    var nextArrival = moment().add(minutesAway, "minutes");
+    console.log("ARRIVAL TIME: " + moment(nextArrival).format("HH:mm"));
+    var arrivalTime = moment(nextArrival).format("HH:mm");
+    console.log(arrivalTime);
 
     $("table").append("<tr><td>" +
-      snapshot.val().name + "</td><td>" + snapshot.val().role + "</td><td>" + snapshot.val().startDate + "</td><td>" + monthsWorked + "</td><td>" + snapshot.val().monthlyRate + "</td><td>$" + totalBilled + "</td></tr>");
+        snapshot.val().train + "</td><td>" + snapshot.val().destination +
+        "</td><td>" + snapshot.val().frequency + "</td><td>" + arrivalTime + "</td><td>" +
+        minutesAway + "</td><td>");
 
-    }, function(errorObject) {
-      console.log("Errors handled: " + errorObject.code);
-    });
+}, function (errorObject) {
+    console.log("Errors handled: " + errorObject.code);
+});
+
+
