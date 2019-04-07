@@ -4,6 +4,7 @@ body {
     background-image: url(../images/steam.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .display-4 {
@@ -15,8 +16,14 @@ body {
     border-style: solid;
     border-color: black;
     border-width: 1px;
+    color:white;
     text-align: center;
-    margin: 0 40px 30px 40px;
+    text-shadow:
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+    margin: 20px 40px 30px 40px;
 }
 
 .card {
@@ -25,10 +32,16 @@ body {
     border-style: solid;
     border-color: black;
     border-width: 1px;
+    color:white;
 }
+
+ /* .displayData {
+    color:white;
+} */
 
 .displayAlign {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    color:white;
   }
